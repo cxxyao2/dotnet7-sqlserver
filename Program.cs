@@ -2,11 +2,13 @@ global using dotnet7_sqlserver.Models;
 global using dotnet7_sqlserver.Services.CharacterService;
 global using dotnet7_sqlserver.Dtos.Character;
 global using AutoMapper;
+global using Microsoft.EntityFrameworkCore;
+using dotnet7_sqlserver.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
