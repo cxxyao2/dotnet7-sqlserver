@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using dotnet7_sqlserver.Dtos.Skill;
+using dotnet7_sqlserver.Dtos.Weapon;
 
 namespace dotnet7_sqlserver.Dtos.Character
 {
@@ -15,5 +17,7 @@ namespace dotnet7_sqlserver.Dtos.Character
     public int Defense { get; set; } = 10;
     public int Intelligence { get; set; } = 10;
     public RpgClass Class { get; set; } = RpgClass.Knight;
+    public GetWeaponDto? Weapon { get; set; }
+    public List<GetSkillDto>? Skills { get; set; }
     }
 }

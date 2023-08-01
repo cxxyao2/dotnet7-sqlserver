@@ -25,8 +25,7 @@ namespace dotnet7_sqlserver.Controllers
     [HttpGet("GetAll")]
     public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> Get()
     {
-      int id = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)!.Value);
-      return Ok(await _characterService.GetAllCharacters(id));
+      return Ok(await _characterService.GetAllCharacters());
 
     }
 
@@ -64,10 +63,15 @@ namespace dotnet7_sqlserver.Controllers
     {
 
       var response = await _characterService.DeleteCharacter(id);
-      if (response.Data is null) return NotFound();
 
       return Ok(response);
 
+    }
+
+    [HttpPost("Skill")]
+    public async Task<ActionResult<ServiceResponse<GetCharacterDto>>> AddCharacterSkill(AddCharacterSkillDto newCharacterSkill)
+    {
+      return Ok(await _characterService.AddCharacterSkill(newCharacterSkill));
     }
   }
 }

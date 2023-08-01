@@ -3,6 +3,7 @@ global using dotnet7_sqlserver.Services.CharacterService;
 global using dotnet7_sqlserver.Dtos.Character;
 global using AutoMapper;
 global using Microsoft.EntityFrameworkCore;
+global using dotnet7_sqlserver.Services.WeaponService;
 using dotnet7_sqlserver.Data;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -35,6 +36,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<ICharacterService, CharacterService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddScoped<IWeaponService, WeaponService>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
   .AddJwtBearer(options =>
   {
@@ -55,6 +57,8 @@ builder.Services.AddAuthorization(options =>
         policy.RequireClaim("UserRole", "Admin");
       });
     });
+
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
