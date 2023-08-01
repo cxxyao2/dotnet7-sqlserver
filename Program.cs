@@ -4,6 +4,7 @@ global using dotnet7_sqlserver.Dtos.Character;
 global using AutoMapper;
 global using Microsoft.EntityFrameworkCore;
 global using dotnet7_sqlserver.Services.WeaponService;
+global using dotnet7_sqlserver.Services.FightService;
 using dotnet7_sqlserver.Data;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -37,6 +38,8 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<ICharacterService, CharacterService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IWeaponService, WeaponService>();
+builder.Services.AddScoped<IFightService, FightService>();
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
   .AddJwtBearer(options =>
   {

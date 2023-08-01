@@ -22,6 +22,14 @@ namespace dotnet7_sqlserver.Controllers
       _characterService = characterService;
     }
 
+    [AllowAnonymous]
+    [HttpGet("HighScore")]
+    public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> HighScore()
+    {
+      return Ok(await _characterService.HighScore());
+
+    }
+
     [HttpGet("GetAll")]
     public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> Get()
     {

@@ -156,5 +156,19 @@ namespace dotnet7_sqlserver.Services.CharacterService
 
       return response;
     }
+
+    public async Task<ServiceResponse<List<GetCharacterDto>>> HighScore()
+    {
+      var serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
+      var dbCharacters = await _context.Characters
+        .Include(c => c.Weapon)
+        .Include(c => c.Skills)
+        .Where(c => c.HitPoints > 0)
+        .OrderByDescending(c => c.HitPoints)
+        .ThenBy(c => c.Defense)
+        .ToListAsync();
+      serviceResponse.Data = dbCharacters.Select(c => _mapper.Map<GetCharacterDto>(c)).ToList();
+      return serviceResponse;
+    }
   }
 }
