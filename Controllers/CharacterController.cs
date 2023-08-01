@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace dotnet7_sqlserver.Controllers
 {
+  [Authorize]
   [ApiController]
   [Route("api/[controller]")]
   public class CharacterController : ControllerBase
@@ -22,11 +25,12 @@ namespace dotnet7_sqlserver.Controllers
     [HttpGet("GetAll")]
     public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> Get()
     {
-
-      return Ok(await _characterService.GetAllCharacters());
+      int id = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)!.Value);
+      return Ok(await _characterService.GetAllCharacters(id));
 
     }
 
+    [AllowAnonymous]
     [HttpGet("{id}")]
     public async Task<ActionResult<ServiceResponse<GetCharacterDto>>> GetSingle(int id)
     {
@@ -44,6 +48,7 @@ namespace dotnet7_sqlserver.Controllers
 
     }
 
+    [Authorize(Policy = "AdminOnly")]
     [HttpPut]
     public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> UpdateCharacter(UpdateCharacterDto updatedCharacter)
     {

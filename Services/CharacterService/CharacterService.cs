@@ -30,10 +30,10 @@ namespace dotnet7_sqlserver.Services.CharacterService
       return serviceResponse;
     }
 
-    public async Task<ServiceResponse<List<GetCharacterDto>>> GetAllCharacters()
+    public async Task<ServiceResponse<List<GetCharacterDto>>> GetAllCharacters(int userId)
     {
       var serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
-      var dbCharacters = await _context.Characters.ToListAsync();
+      var dbCharacters = await _context.Characters.Where(c => c.User!.Id == userId).ToListAsync();
       serviceResponse.Data = dbCharacters.Select(c => _mapper.Map<GetCharacterDto>(c)).ToList();
       return serviceResponse;
     }
@@ -83,7 +83,7 @@ namespace dotnet7_sqlserver.Services.CharacterService
 
       try
       {
-        var character =await  _context.Characters.FirstOrDefaultAsync(c => c.Id == id);
+        var character = await _context.Characters.FirstOrDefaultAsync(c => c.Id == id);
         if (character is null) throw new Exception($"Character with Id {id} not found");
         _context.Characters.Remove(character);
         await _context.SaveChangesAsync();
