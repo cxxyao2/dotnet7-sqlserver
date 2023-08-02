@@ -14,6 +14,16 @@ using Swashbuckle.AspNetCore.Filters;
 using dotnet7_sqlserver.Services.EmailService;
 
 var builder = WebApplication.CreateBuilder(args);
+// Check whether the environment variable exists.
+var value = Environment.GetEnvironmentVariable("Test1");
+if(value != null)
+{
+  Console.WriteLine($"Test1: {value}");
+}
+else
+{
+  Console.WriteLine("Test1 does not exist.");
+}
 
 // Add services to the container.
 builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
