@@ -82,5 +82,11 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.Use(async (context, next) =>
+{
+  Console.WriteLine("Before");
+  await next.Invoke();
+  Console.WriteLine("After");
 
+});
 app.Run();
