@@ -1,1 +1,1 @@
-my password is 133cd
+Added a CodeQL based workflow file.
